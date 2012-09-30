@@ -6,6 +6,7 @@ import mimetypes
 import os
 import os.path
 import urlparse
+import webbrowser
 
 # Various config settings for the python server
 SETTINGS = {
@@ -213,8 +214,12 @@ class HTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
 def main():
     addr = ('', SETTINGS['port'])
+    url = "http://localhost:%d" % addr[1]
+    editor_url = url + "/editor"
     server = BaseHTTPServer.HTTPServer(addr, HTTPHandler)
-    print 'Running ImpactJS Server\nGame:   http://localhost:%d\nEditor: http://localhost:%d/editor' % (addr[1], addr[1])
+    print 'Running ImpactJS Server\nGame:   %s\nEditor: %s' % (url, editor_url)
+    webbrowser.open_new(url)
+    webbrowser.open_new_tab(editor_url)
     server.serve_forever()
 
 if __name__ == '__main__':
