@@ -8,6 +8,7 @@ import os.path
 import urlparse
 import webbrowser
 import optparse
+import sys
 
 # Various config settings for the python server
 SETTINGS = {
@@ -226,7 +227,11 @@ def main():
     (opts, args) = parser.parse_args()
 
     if opts.port:
-        SETTINGS['port'] = int(opts.port)
+        try:
+            SETTINGS['port'] = int(opts.port)
+        except ValueError:
+            print "Port must be a valid integer."
+            sys.exit(-1)       
 
     if opts.log:
         SETTINGS['logging'] = True
