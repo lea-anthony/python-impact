@@ -7,6 +7,7 @@ import os
 import os.path
 import urlparse
 import webbrowser
+import optparse
 
 # Various config settings for the python server
 SETTINGS = {
@@ -213,13 +214,51 @@ class HTTPHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
 
 def main():
+
+    parser = optparse.OptionParser("Usage: %prog [options]")
+
+    parser.add_option("-p", "--port", help="Port to run server on", action="store")
+    parser.add_option("-l", "--log", help="Enable Logging", action="store_true")
+    parser.add_option("-b", "--browser", help="Opens default browser with 2 tabs for the editor and game", action="store_true")
+    parser.add_option("-f", "--firefox", help="Opens Firefox with 2 tabs for the editor and game", action="store_true")
+    parser.add_option("-s", "--safari", help="Opens Safari with 2 tabs for the editor and game", action="store_true")
+
+    (opts, args) = parser.parse_args()
+
+    if opts.port:
+        SETTINGS['port'] = int(opts.port)
+
+    if opts.log:
+        SETTINGS['logging'] = True
+
+    browser = None
+    multi_browser_error = "Multiple browsers selected. Default being used."
+
+    if opts.browser:
+        browser = webbrowser.get()
+
+    if opts.safari:
+        if browser == None:
+            browser = webbrowser.get('safari')
+        else:
+            print multi_browser_error
+
+    if opts.firefox:
+        if browser == None:
+            browser = webbrowser.get('firefox')
+        else:
+            print multi_browser_error
+
     addr = ('', SETTINGS['port'])
     url = "http://localhost:%d" % addr[1]
     editor_url = url + "/editor"
     server = BaseHTTPServer.HTTPServer(addr, HTTPHandler)
     print 'Running ImpactJS Server\nGame:   %s\nEditor: %s' % (url, editor_url)
-    webbrowser.open_new(url)
-    webbrowser.open_new_tab(editor_url)
+
+    if browser != None:
+        browser.open_new(url)
+        browser.open_new_tab(editor_url)
+    
     server.serve_forever()
 
 if __name__ == '__main__':
