@@ -55,3 +55,24 @@ Don't touch this unless you know what you are doing. It determines what images c
 ### MimeTypes
 
 This is a dictionary used to add your own custom mime-types. You only need to use this if you are noticing certain file types not being served properly.
+
+## Command Line Options
+
+The following options may be used:
+
+* -p <port> or --port=<port>  : Port to run server on
+* -l or --log  : Enable Logging
+* -b or --browser  : Opens default browser with 2 tabs for the editor and game
+* -f or --firefox  : Opens Firefox with 2 tabs for the editor and game
+* -s or --safari  : Opens Safari with 2 tabs for the editor and game
+
+## Contributers
+
+This project wouldn't be possible without the awesome contributions of a few key people
+
+* [Armon Dadgar](https://github.com/armon)
+* [Lea Anthony](https://github.com/lea-anthony)
+
+## License
+
+This project is under the [MIT License](http://en.wikipedia.org/wiki/MIT_License)
